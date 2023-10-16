@@ -1,0 +1,7 @@
+.card {
+  margin: 5px 0px;
+}
+
+.card-title {
+  cursor: pointer;
+}

@@ -1,0 +1,18 @@
+<app-exibition-item [exibition]="exibitionDetail"></app-exibition-item>
+
+<div class="row">
+  <div class="col-6" *ngFor="let artworkItem of artworks">
+    <div class="card" style="width: 100%; margin: 2px 0px;">
+      <div class="card-body">
+        <div>
+          <h5 class="card-title">{{artworkItem.title}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{artworkItem.author}} - {{artworkItem.beginYear}} - {{artworkItem.endYear}}</h6>
+          <p class="card-text">{{artworkItem.medium}}</p>
+        </div>
+        <div class="imageBox">
+          <img src="http://localhost:3000/image/{{artworkItem.imageId}}.jpg" alt="photo">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

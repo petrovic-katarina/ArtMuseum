@@ -1,0 +1,7 @@
+<div class="card" style="width: 100%;">
+  <div class="card-body"  [routerLink]="['/exibitions', exibition._id]">
+    <h5 class="card-title">{{exibition.title}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{exibition.location.site}}, {{exibition.location.room}}</h6>
+    <p class="card-text">{{exibition.description}}</p>
+  </div>
+</div>
