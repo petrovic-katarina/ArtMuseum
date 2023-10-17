@@ -9,7 +9,6 @@ import { Exibition } from 'src/app/model/exibition.model';
 export class ExibitionItemComponent {
 
   @Input() exibition: Exibition = new Exibition();
-
-
+  @Input() showEditButton: boolean = false;
 
 }

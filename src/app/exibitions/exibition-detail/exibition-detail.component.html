@@ -1,7 +1,8 @@
-<app-exibition-item [exibition]="exibitionDetail"></app-exibition-item>
+<app-exibition-item [exibition]="exibitionDetail" [showEditButton]="!edit"></app-exibition-item>
 
+<!-- Lista umetnickih dela -->
 <div class="row">
-  <div class="col-6" *ngFor="let artworkItem of artworks">
+  <div class="col-6" *ngFor="let artworkItem of exibitionArtworks">
     <div class="card" style="width: 100%; margin: 2px 0px;">
       <div class="card-body">
         <div>
@@ -15,4 +16,60 @@
       </div>
     </div>
   </div>
+</div><br>
+
+<!-- Filer -->
+<div class="row" *ngIf="edit">
+  <div class="col-6">
+    <div class="row">
+      <div class="col-10">
+        <input type="text" name="" id="" class="form-control">
+      </div>
+      <div class="col-2">
+        <button class="btn btn-dark">Search</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <button class="btn btn-dark done">Done</button>
+  </div>
+</div><br>
+
+<!-- Tabela -->
+<div class="row" *ngIf="edit">
+  <div class="col-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let freeArtwork of freeArtworks">
+          <td>{{freeArtwork.title}}</td>
+          <td>{{freeArtwork.author}}</td>
+          <button class="btn btn-dark">Add</button>
+        </tr>
+      </tbody>
+    </table>    
+  </div>
+  <div class="col-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let artworkItem of exibitionArtworks">
+          <td>{{artworkItem.title}}</td>
+          <td>{{artworkItem.author}}</td>
+          <button class="btn btn-dark">Remove</button>
+        </tr>
+      </tbody>
+    </table>    
+  </div>
 </div>
+

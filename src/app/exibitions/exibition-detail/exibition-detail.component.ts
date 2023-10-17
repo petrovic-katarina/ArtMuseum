@@ -16,14 +16,29 @@ export class ExibitionDetailComponent implements OnInit, OnDestroy {
   exibitionDetail: Exibition = new Exibition();
   subscriptionExibitionDetail: Subscription = new Subscription();
 
-  artworks: Artwork[] = [];
+  exibitionArtworks: Artwork[] = [];
   subscriptionExibitionArtwork: Subscription = new Subscription();
+
+  allArtworks: Artwork[] = [];
+  freeArtworks: Artwork[] = [];
+  subscriptionAllArtworks: Subscription = new Subscription();
+
+  queryParams = {
+    sort: 'author',
+    sortDirection: 'asc',
+    filter: {
+    }
+  }
+
+  edit: boolean = false;
+
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.exibitionId = params['id']
       this.getOneExibition();
       this.getAllExibitionArtworks();
+      this.getAllArtworks();
     })
   }
 
@@ -42,9 +57,30 @@ export class ExibitionDetailComponent implements OnInit, OnDestroy {
   }
 
   getAllExibitionArtworks() {
-    this.service.getExibitionArtworks(this.exibitionId).subscribe({
+    this.subscriptionExibitionArtwork = this.service.getExibitionArtworks(this.exibitionId).subscribe({
+      next: (exibitionArtworks: Artwork[]) => {
+        this.exibitionArtworks = exibitionArtworks;
+      },
+      error: (response: any) => {
+        console.log('error: ', response);
+      }
+    })
+  }
+
+  getAllArtworks() {
+    this.subscriptionAllArtworks = this.service.getAllArtworks(this.queryParams).subscribe({
       next: (artworks: Artwork[]) => {
-        this.artworks = artworks;
+        console.log(artworks);
+        this.allArtworks = artworks;
+
+        this.freeArtworks = [];
+        for (let artwork of this.allArtworks) {
+          if (artwork.exibition_id === -1) {
+            this.freeArtworks.push(artwork);
+          }
+        }
+
+        console.log(this.freeArtworks);
       },
       error: (response: any) => {
         console.log('error: ', response);
@@ -54,6 +90,8 @@ export class ExibitionDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptionExibitionDetail.unsubscribe();
+    this.subscriptionExibitionArtwork.unsubscribe();
+    this.subscriptionAllArtworks.unsubscribe();
   }
 
 }

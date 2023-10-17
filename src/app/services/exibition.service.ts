@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Exibition } from '../model/exibition.model';
@@ -39,5 +39,20 @@ export class ExibitionService {
     }))
   }
 
+  // GET http://localhost:3000/api/artworks
+
+  getAllArtworks(params?: any): Observable<Artwork[]> {
+    let options = {};
+
+    if (params) {
+      options = {
+        params: new HttpParams().set("filter", params.filter && JSON.stringify(params.filter) || "").set("sort", params.sort || "").set("sortDirection", params.sortDirection || "")
+      }
+    }
+
+    return this.http.get(`${baseURLArtworks}`, options).pipe(map((data: any) => {
+      return data && data.map((elem: any) => new Artwork(elem)) || []
+    }))
+  }
 
 }
