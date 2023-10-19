@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Exibition } from 'src/app/model/exibition.model';
 
 @Component({
@@ -11,4 +11,9 @@ export class ExibitionItemComponent {
   @Input() exibition: Exibition = new Exibition();
   @Input() showEditButton: boolean = false;
 
+  @Output() editClicked: EventEmitter<void> = new EventEmitter();
+
+  onEditClicked(): void {
+    this.editClicked.emit()
+  }
 }

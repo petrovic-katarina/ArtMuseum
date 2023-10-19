@@ -1,7 +1,7 @@
-<app-exibition-item [exibition]="exibitionDetail" [showEditButton]="!edit"></app-exibition-item>
+<app-exibition-item [exibition]="exibitionDetail" [showEditButton]="!edit" (editClicked)="onEditClicked()"></app-exibition-item>
 
 <!-- Lista umetnickih dela -->
-<div class="row">
+<div class="row" *ngIf="!edit">
   <div class="col-6" *ngFor="let artworkItem of exibitionArtworks">
     <div class="card" style="width: 100%; margin: 2px 0px;">
       <div class="card-body">
@@ -31,7 +31,7 @@
     </div>
   </div>
   <div class="col-6">
-    <button class="btn btn-dark done">Done</button>
+    <button class="btn btn-dark float-end" (click)="onDoneClicked()">Done</button>
   </div>
 </div><br>
 

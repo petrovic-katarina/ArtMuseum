@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Artwork } from 'src/app/model/artwork.model';
@@ -23,6 +23,8 @@ export class ExibitionDetailComponent implements OnInit, OnDestroy {
   freeArtworks: Artwork[] = [];
   subscriptionAllArtworks: Subscription = new Subscription();
 
+  @Output() doneClicked: EventEmitter<void> = new EventEmitter()
+
   queryParams = {
     sort: 'author',
     sortDirection: 'asc',
@@ -31,7 +33,6 @@ export class ExibitionDetailComponent implements OnInit, OnDestroy {
   }
 
   edit: boolean = false;
-
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -87,6 +88,16 @@ export class ExibitionDetailComponent implements OnInit, OnDestroy {
       }
     })
   }
+
+  onEditClicked(): void {
+    this.edit = true;
+  }
+
+  onDoneClicked(): void {
+    this.edit = false;
+    this.doneClicked.emit()
+  }
+
 
   ngOnDestroy(): void {
     this.subscriptionExibitionDetail.unsubscribe();
