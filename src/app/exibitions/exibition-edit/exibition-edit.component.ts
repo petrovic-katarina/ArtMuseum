@@ -29,7 +29,6 @@ export class ExibitionEditComponent {
 
   authorControl = new FormControl('');
 
-
   constructor(private service: ExibitionService) { }
 
   ngOnInit(): void {
@@ -39,24 +38,16 @@ export class ExibitionEditComponent {
     this.doneClicked.emit()
   }
 
-  // onAddClicked(artwork: Artwork): void {
-  //   this.service.addArtwork(this.exibitionId, artwork._id, artwork).subscribe({
-  //     next: (artwork: Artwork) => {
-  //       this.artworksChanged.emit()
-  //     },
-  //     error: (err) => { console.log(err) }
-  //   })
-  // }
-
-  // onRemoveClicked(artworkId: number): void {
-  //   this.service.removeArtwork(this.exibitionId, artworkId).subscribe({
-  //     next: (artwork: Artwork) => {
-  //       this.artworksChanged.emit()
-
-  //     },
-  //     error: (err) => { console.log(err) }
-  //   })
-  // }
+  onAddCliked(artwork: Artwork) {
+    this.service.addArtworkToExibition(this.exibitionId, artwork._id, artwork).subscribe({
+      next: (artwork: Artwork) => {
+        this.artworksChanged.emit();
+      },
+      error: (response: any) => {
+        console.log('error: ', response);
+      }
+    })
+  }
 
   onSearchClick(): void {
     this.search.emit(this.authorControl.value || '');

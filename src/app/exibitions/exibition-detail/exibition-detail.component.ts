@@ -106,6 +106,11 @@ export class ExibitionDetailComponent implements OnInit, OnDestroy {
     this.getAllArtworks();
   }
 
+  onArtworksChanged() {
+    this.getAllExibitionArtworks();
+    this.getAllArtworks();
+  }
+
 
   ngOnDestroy(): void {
     this.subscriptionExibitionDetail.unsubscribe();

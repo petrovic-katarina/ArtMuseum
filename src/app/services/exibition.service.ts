@@ -55,4 +55,12 @@ export class ExibitionService {
     }))
   }
 
+  // Klikom na dugme Add šalje se PUT zahtev na http://localhost:3000/api/exibitions/:exibitionId/artworks/:artworkId koji dodeljuje delo izložbi
+
+  addArtworkToExibition(exibitionId: number, artworkId: number, artwork: Artwork): Observable<Artwork> {
+    return this.http.put(`${baseURL}/${exibitionId}/artworks/${artworkId}`, artwork).pipe(map((data: any) => {
+      return new Artwork(data);
+    }))
+  }
+
 }
