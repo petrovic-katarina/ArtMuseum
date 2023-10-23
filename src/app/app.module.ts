@@ -12,6 +12,8 @@ import { ExibitionItemComponent } from './exibitions/exibition-item/exibition-it
 import { ExibitionDetailComponent } from './exibitions/exibition-detail/exibition-detail.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ExibitionEditComponent } from './exibitions/exibition-edit/exibition-edit.component';
 
 
 @NgModule({
@@ -23,13 +25,15 @@ import { HttpClientModule } from '@angular/common/http';
     ExibitionsComponent,
     NewExibitionComponent,
     ExibitionItemComponent,
-    ExibitionDetailComponent
+    ExibitionDetailComponent,
+    ExibitionEditComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
 
   ],
   providers: [],

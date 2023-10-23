@@ -1,0 +1,54 @@
+<!-- Filer -->
+<div class="row">
+  <div class="col-6">
+    <div class="row">
+      <div class="col-10">
+        <input type="text" placeholder="Author" id="searchInput" class="form-control" [formControl]="authorControl">
+      </div>
+      <div class="col-2">
+        <button class="btn btn-dark" (click)="onSearchClick()">Search</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <button class="btn btn-dark float-end" (click)="onDoneClicked()">Done</button>
+  </div>
+</div><br>
+
+<!-- Tabela -->
+<div class="row">
+  <div class="col-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let freeArtwork of freeArtworks">
+          <td>{{freeArtwork.title}}</td>
+          <td>{{freeArtwork.author}}</td>
+          <button class="btn btn-dark">Add</button>
+        </tr>
+      </tbody>
+    </table>    
+  </div>
+  <div class="col-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let artworkItem of exibitionArtworks">
+          <td>{{artworkItem.title}}</td>
+          <td>{{artworkItem.author}}</td>
+          <button class="btn btn-dark">Remove</button>
+        </tr>
+      </tbody>
+    </table>    
+  </div>
+</div>
