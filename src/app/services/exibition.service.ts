@@ -82,4 +82,12 @@ export class ExibitionService {
     }))
   }
 
+  // http://localhost:3000/api/exibitions
+
+  addNewExibition(exibition: Exibition): Observable<Exibition> {
+    return this.http.post(`http://localhost:3000/api/exibitions`, exibition).pipe(map((data: any) => {
+      return new Exibition(data);
+    }))
+  }
+
 }

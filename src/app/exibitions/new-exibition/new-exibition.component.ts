@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ExibitionLocation } from 'src/app/model/exibition-location.model';
+import { Exibition } from 'src/app/model/exibition.model';
 import { ExibitionService } from 'src/app/services/exibition.service';
 
 @Component({
@@ -8,12 +11,15 @@ import { ExibitionService } from 'src/app/services/exibition.service';
   templateUrl: './new-exibition.component.html',
   styleUrls: ['./new-exibition.component.css']
 })
-export class NewExibitionComponent implements OnInit {
+export class NewExibitionComponent implements OnInit, OnDestroy {
 
   exibitionForm: FormGroup;
   locations: ExibitionLocation[] = [];
 
-  constructor(private service: ExibitionService) {
+  subscriptionLocations: Subscription = new Subscription();
+  subscriptionCreateExibition: Subscription = new Subscription();
+
+  constructor(private service: ExibitionService, private router: Router) {
     this.exibitionForm = new FormGroup({
       title: new FormControl("", Validators.required),
       description: new FormControl("", Validators.required),
@@ -38,7 +44,7 @@ export class NewExibitionComponent implements OnInit {
   }
 
   getLocations(): void {
-    this.service.getAllLocations().subscribe({
+    this.subscriptionLocations = this.service.getAllLocations().subscribe({
       next: (locations: ExibitionLocation[]) => {
         this.locations = locations
         console.log(this.locations);
@@ -48,7 +54,46 @@ export class NewExibitionComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.exibitionForm.valid) {
+      alert("Please fill in all fields")
+      return;
+    }
 
+    let locationId = this.exibitionForm.value.location;
+    let location: ExibitionLocation = new ExibitionLocation();
+    let found = false;
+
+    for (let loc of this.locations) {
+      if (loc._id == locationId) {
+        location = loc;
+        found = true;
+      }
+    }
+
+    if (!found) {
+      alert("Please choose a location")
+      return
+    }
+
+    let newExibition = new Exibition({
+      title: this.exibitionForm.value.title,
+      description: this.exibitionForm.value.description,
+      location: location
+    })
+
+    this.subscriptionCreateExibition = this.service.addNewExibition(newExibition).subscribe({
+      next: (newExibition: Exibition) => {
+        newExibition = newExibition;
+        console.log(newExibition);
+        this.router.navigate(['/exibitions']);
+      },
+      error: (err: any) => { console.log(err) }
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionLocations.unsubscribe();
+    this.subscriptionCreateExibition.unsubscribe();
   }
 
 }
