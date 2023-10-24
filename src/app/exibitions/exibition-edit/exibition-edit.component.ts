@@ -1,33 +1,32 @@
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { Artwork } from 'src/app/model/artwork.model';
 import { Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ExibitionService } from 'src/app/services/exibition.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-exibition-edit',
   templateUrl: './exibition-edit.component.html',
   styleUrls: ['./exibition-edit.component.css']
 })
-export class ExibitionEditComponent {
-  @Input()
-  freeArtworks: Artwork[] = [];
+export class ExibitionEditComponent implements OnDestroy {
 
-  @Input()
-  exibitionArtworks: Artwork[] = [];
+  @Input() freeArtworks: Artwork[] = [];
+  @Input() exibitionArtworks: Artwork[] = [];
 
-  @Input()
-  exibitionId: number = 0;
+  @Input() exibitionId: number = 0;
 
-  @Output()
-  doneClicked: EventEmitter<void> = new EventEmitter()
+  @Output() doneClicked: EventEmitter<void> = new EventEmitter()
 
   @Output() artworksChanged: EventEmitter<void> = new EventEmitter();
 
-  @Output()
-  search: EventEmitter<string> = new EventEmitter();
+  @Output() search: EventEmitter<string> = new EventEmitter();
 
   authorControl = new FormControl('');
+
+  subscriptionAddingArtwork: Subscription = new Subscription();
+  subscriptionDeletingArtwork: Subscription = new Subscription();
 
   constructor(private service: ExibitionService) { }
 
@@ -39,7 +38,7 @@ export class ExibitionEditComponent {
   }
 
   onAddCliked(artwork: Artwork) {
-    this.service.addArtworkToExibition(this.exibitionId, artwork._id, artwork).subscribe({
+    this.subscriptionAddingArtwork = this.service.addArtworkToExibition(this.exibitionId, artwork._id, artwork).subscribe({
       next: (artwork: Artwork) => {
         this.artworksChanged.emit();
       },
@@ -53,7 +52,21 @@ export class ExibitionEditComponent {
     this.search.emit(this.authorControl.value || '');
   }
 
+  onRemoveCliked(artwork: Artwork) {
+    this.subscriptionDeletingArtwork = this.service.removeArtworkFromExibition(this.exibitionId, artwork._id).subscribe({
+      next: (artwork: Artwork) => {
+        this.artworksChanged.emit();
+      },
+      error: (response: any) => {
+        console.log('error: ', response);
+      }
+    })
+  }
 
+  ngOnDestroy(): void {
+    this.subscriptionAddingArtwork.unsubscribe();
+    this.subscriptionDeletingArtwork.unsubscribe();
+  }
 }
 
 

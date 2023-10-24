@@ -46,7 +46,7 @@
         <tr *ngFor="let artworkItem of exibitionArtworks">
           <td>{{artworkItem.title}}</td>
           <td>{{artworkItem.author}}</td>
-          <button class="btn btn-dark">Remove</button>
+          <button class="btn btn-dark" (click)="onRemoveCliked(artworkItem)">Remove</button>
         </tr>
       </tbody>
     </table>    
