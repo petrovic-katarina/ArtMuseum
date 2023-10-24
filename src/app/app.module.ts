@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExibitionEditComponent } from './exibitions/exibition-edit/exibition-edit.component';
+import { ArtworkDetailsComponent } from './exibitions/exibition-detail/artwork-details/artwork-details.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ExibitionEditComponent } from './exibitions/exibition-edit/exibition-ed
     NewExibitionComponent,
     ExibitionItemComponent,
     ExibitionDetailComponent,
-    ExibitionEditComponent
+    ExibitionEditComponent,
+    ArtworkDetailsComponent
   ],
   imports: [
     BrowserModule,

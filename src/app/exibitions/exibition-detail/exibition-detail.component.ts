@@ -1,10 +1,12 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Artwork } from 'src/app/model/artwork.model';
 import { Exibition } from 'src/app/model/exibition.model';
 import { ExibitionService } from 'src/app/services/exibition.service';
+import { ArtworkDetailsComponent } from './artwork-details/artwork-details.component';
 
 @Component({
   selector: 'app-exibition-detail',
@@ -45,7 +47,7 @@ export class ExibitionDetailComponent implements OnInit, OnDestroy {
     })
   }
 
-  constructor(private service: ExibitionService, private route: ActivatedRoute) { }
+  constructor(private service: ExibitionService, private route: ActivatedRoute, private offcanvasService: NgbOffcanvas) { }
 
   getOneExibition() {
     this.subscriptionExibitionDetail = this.service.getExibition(this.exibitionId).subscribe({
@@ -109,6 +111,13 @@ export class ExibitionDetailComponent implements OnInit, OnDestroy {
   onArtworksChanged() {
     this.getAllExibitionArtworks();
     this.getAllArtworks();
+  }
+
+  showDetails(artwork: Artwork): void {
+    const offcanvasRef = this.offcanvasService.open(ArtworkDetailsComponent, {
+      position: 'end',
+    });
+    offcanvasRef.componentInstance.artwork = artwork;
   }
 
 
