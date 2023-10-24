@@ -1,1 +1,32 @@
-<p>new-exibition works!</p>
+<div class="row">
+  <div class="col-8 offset-3">
+    <br>
+    <form [formGroup]="exibitionForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" class="form-control" formControlName="title">
+        <small class="text-danger" *ngIf="title?.touched && title?.errors?.['required']">
+          Title is required!
+        </small>
+      </div><br>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" name="description" id="description" cols="30" rows="2" formControlName="description"></textarea>
+        <small class="text-danger" *ngIf="description?.touched && description?.errors?.['required']">
+          Description is required!
+        </small>
+      </div><br>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <select class="form-control" formControlName="location">
+          <option [value]="loc._id" *ngFor="let loc of locations">{{loc.site}}, {{loc.room}}</option>
+        </select>
+        <small class="text-danger" *ngIf="location?.touched && location?.errors?.['required']">
+          Location is required!
+        </small>
+      </div><br>
+      <button class="btn btn-dark float-end" type="submit" (click)="onSubmit()" [disabled]="exibitionForm.invalid">Submit</button>
+    </form>
+  </div>
+</div>
+

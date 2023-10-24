@@ -3,9 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Exibition } from '../model/exibition.model';
 import { Artwork } from '../model/artwork.model';
+import { ExibitionLocation } from '../model/exibition-location.model';
 
 const baseURL = 'http://localhost:3000/api/exibitions';
 const baseURLArtworks = 'http://localhost:3000/api/artworks';
+const baseURLLocations = 'http://localhost:3000/api/locations';
+
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +71,14 @@ export class ExibitionService {
   removeArtworkFromExibition(exibitionId: number, artworkId: number): Observable<Artwork> {
     return this.http.delete(`${baseURL}/${exibitionId}/artworks/${artworkId}`).pipe(map((data: any) => {
       return new Artwork(data);
+    }))
+  }
+
+  // http://localhost:3000/api/locations
+
+  getAllLocations(): Observable<ExibitionLocation[]> {
+    return this.http.get(`${baseURLLocations}`).pipe(map((data: any) => {
+      return data && data.map((elem: any) => new ExibitionLocation(elem)) || [];
     }))
   }
 
